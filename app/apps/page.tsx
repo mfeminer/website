@@ -25,7 +25,7 @@ async function fetchData() {
     }
   );
   const data = await response.json();
-  const dataFilterByStatus = data.records.filter((r: IApp) => !r.fields.draft);
+  const dataFilterByStatus = data?.records?.filter((r: IApp) => !r.fields.draft);
   return dataFilterByStatus;
 }
 

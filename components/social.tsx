@@ -1,8 +1,7 @@
 import Link from "@/components/link";
 import IconTwitter from "@/components/icons/twitter";
-import IconYoutube from "@/components/icons/youtube";
 import IconGithub from "@/components/icons/github";
-import IconInstagram from "@/components/icons/instagram";
+import IconLinkedIn from "@/components/icons/linkedin";
 import { SOCIAL } from "@/lib/const";
 
 function SocialButton({ href, children }) {
@@ -28,20 +27,16 @@ export default function Social() {
         <span className="mx-2 font-medium">Email</span>
       </SocialButton>
 
-      <SocialButton href={SOCIAL.instagram}>
-        <IconInstagram />
+      <SocialButton href={SOCIAL.github}>
+        <IconGithub />
+      </SocialButton>
+
+      <SocialButton href={SOCIAL.linkedin}>
+        <IconLinkedIn />
       </SocialButton>
 
       <SocialButton href={SOCIAL.twitter}>
         <IconTwitter />
-      </SocialButton>
-
-      <SocialButton href={SOCIAL.youtube}>
-        <IconYoutube />
-      </SocialButton>
-
-      <SocialButton href={SOCIAL.github}>
-        <IconGithub />
       </SocialButton>
     </div>
   );

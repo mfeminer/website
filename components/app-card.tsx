@@ -9,7 +9,7 @@ export default function AppCard({ app }: { app: IApp }) {
 
   return (
     <BaseLink
-      href={`${url}?ref=ademilter`}
+      href={`${url}?ref=furkan_eminer`}
       className={cx(
         "flex items-center gap-6 from-zinc-100 py-6 px-4 hover:bg-gradient-to-r dark:from-zinc-800"
       )}

@@ -7,11 +7,9 @@ export default function Footer() {
     <footer className="mt-40">
       <Container>
         <p>
-          Bu web sitesinin kaynak kodlarına{" "}
-          <StyleLink href="https://github.com/ademilter/homepage">
-            Github üzerinden
-          </StyleLink>{" "}
-          ulaşabilirsiniz.
+          Bu web sitesinin tasarımı ve kaynak kodları{" "}
+          <StyleLink href="https://ademilter.com">Adem İlter</StyleLink> 'e
+          aittir. Kullanım izni için kendisine teşekkür ederim.
         </p>
       </Container>
     </footer>

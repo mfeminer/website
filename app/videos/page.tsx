@@ -10,7 +10,7 @@ import ThankYou from "@/components/thank-you";
 
 export const metadata: Metadata = {
   title: "Eğitimler",
-  description: `Frontend ve Tasarım alanında ürettiğim eğitim videolarının tam listesi. 
+  description: `Ürettiğim videoların tam listesi.
   Youtube üzerinden izledikten sonra buradan işaretleyebilir ve düzenli olarak takip edebilirsiniz.`,
 };
 

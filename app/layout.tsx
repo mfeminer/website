@@ -14,9 +14,9 @@ const inter = Inter({
   subsets: ["latin-ext"],
 });
 
-const title = "Adem ilter";
-const description = "Designer, developer, creator and photographer.";
-const url = "https://ademilter.com";
+const title = "M. Furkan Eminer";
+const description = "software developer, ex security researcher.";
+const url = "https://furkaneminer.com";
 const locale = "tr-TR";
 
 export const metadata: Metadata = {
@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     card: "summary",
     title,
     description,
-    site: "@ademilter",
+    site: "@mfeminer",
   },
   robots: {
     index: true,

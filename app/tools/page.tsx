@@ -6,7 +6,7 @@ import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Araçlar",
-  description: `Gün içinde ve çalışma hayatında sürekli kullandığım araçların listesi. 
+  description: `Gün içinde ve çalışma hayatında sürekli kullandığım araçların listesi.
     Bana yaşattıkları deneyim üzerinden puan ve yorumumu ekledim.`,
 };
 
@@ -25,7 +25,7 @@ async function fetchData() {
     }
   );
   const data = await response.json();
-  const dataFilterByStatus = data.records.filter((r: ITool) => !r.fields.draft);
+  const dataFilterByStatus = data?.records?.filter((r: ITool) => !r.fields.draft);
   return dataFilterByStatus;
 }
 

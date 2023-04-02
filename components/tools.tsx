@@ -12,7 +12,7 @@ export default function Tools({ data }: { data: ITool[] }) {
   const [selectedTab, setSelectedTab] = useState<string>(defaultFilter);
 
   const categories = [
-    ...new Set(data.flatMap((tool: ITool) => tool.fields.category) as string[]),
+    ...new Set(data?.flatMap((tool: ITool) => tool.fields.category) as string[]),
   ];
 
   return (
@@ -33,7 +33,7 @@ export default function Tools({ data }: { data: ITool[] }) {
         <div className="grid items-start gap-6 sm:grid-cols-2 md:grid-cols-3 md:gap-8 lg:grid-cols-4">
           <AnimatePresence>
             {data
-              .filter((tool: ITool) => {
+              ?.filter((tool: ITool) => {
                 if (selectedTab === defaultFilter) return true;
                 return tool.fields.category.includes(selectedTab);
               })

@@ -9,7 +9,7 @@ export default function Apps({ data }: { data: IApp[] }) {
   const [selectedTab, setSelectedTab] = useState("iOS");
 
   const os = [
-    ...new Set(data.flatMap((tool: IApp) => tool.fields.os) as string[]),
+    ...new Set(data?.flatMap((tool: IApp) => tool.fields.os) as string[]),
   ];
 
   return (
@@ -24,7 +24,7 @@ export default function Apps({ data }: { data: IApp[] }) {
 
       <div className="mt-10 divide-y divide-zinc-100 dark:divide-zinc-800">
         {data
-          .filter((app: IApp) => app.fields.os.includes(selectedTab))
+          ?.filter((app: IApp) => app.fields.os.includes(selectedTab))
           .map((app) => (
             <AppCard key={app.id} app={app} />
           ))}

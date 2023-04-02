@@ -4,11 +4,11 @@ import { format, startOfYear } from "date-fns";
 import { Feed } from "feed";
 
 export async function GET() {
-  const siteURL = "https://ademilter.com";
+  const siteURL = "https://furkaneminer.com";
   const date = new Date();
   const author = {
-    name: "Adem ilter",
-    email: "ademikter@gmail.com",
+    name: "M. Furkan Eminer",
+    email: "furkaneminer@gmail.com",
     link: siteURL,
   };
 
@@ -19,8 +19,8 @@ export async function GET() {
   });
 
   const feed = new Feed({
-    title: "Adem ilter",
-    description: "Adem ilter'in yerimleri",
+    title: "M. Furkan Eminer",
+    description: "Furkan'ın yer imleri",
     author: author,
     id: siteURL,
     link: siteURL,

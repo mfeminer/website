@@ -12,7 +12,7 @@ export default class Raindrop {
   private url = "https://api.raindrop.io";
 
   private normalizeData(data: ILink[]) {
-    return data.map((bookmark) => {
+    return data?.map((bookmark) => {
       const { _id, type, created, title, link, excerpt, domain, tags, cover } =
         bookmark;
       return { _id, type, created, title, link, excerpt, domain, tags, cover };
@@ -30,7 +30,7 @@ export default class Raindrop {
     sort?: "-created" | "created";
     search?: string;
   }): Promise<ILink[]> {
-    let url = new URL(`/rest/v1/raindrops/15611214`, this.url);
+    let url = new URL(`/rest/v1/raindrops/33052405`, this.url);
 
     url.searchParams.set("perpage", perPage.toString());
     url.searchParams.set("page", page.toString());
@@ -46,7 +46,7 @@ export default class Raindrop {
     });
     const data: Result = await response.json();
 
-    if (data.items.length === perPage) {
+    if (data.items?.length === perPage) {
       return data.items.concat(
         await this.getBookmark({
           page: page + 1,

@@ -10,7 +10,7 @@ interface ThankYouProps extends React.HTMLAttributes<HTMLAnchorElement> {
 export default function ThankYou({ className }: ThankYouProps) {
   return (
     <BaseLink
-      href="https://www.buymeacoffee.com/ademilter"
+      href="https://www.buymeacoffee.com/mfeminer"
       className={cx(
         "flex items-center gap-6 rounded-lg bg-amber-100 px-6 py-5",
         "text-amber-900 transition-all",

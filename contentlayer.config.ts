@@ -19,7 +19,7 @@ export const Post = defineDocumentType(() => ({
     url: {
       type: "string",
       resolve: (doc) => {
-        return `https://ademilter.com/blog/${doc.slug}`;
+        return `https://furkaneminer.com/blog/${doc.slug}`;
       },
     },
     readingTime: {
