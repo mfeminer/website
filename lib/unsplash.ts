@@ -3,6 +3,8 @@ class Unsplash {
   private client_id: string = `client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
 
   async getData(url) {
+    console.error(`${url} adresi kullanılamıyor. burayı düzenle`);
+    return [];
     const res = await fetch(url, {
       method: "GET",
     });

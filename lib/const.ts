@@ -7,4 +7,5 @@ export const SOCIAL = {
   github: "https://github.com/mfeminer",
   youtube: "https://youtube.com/@mfeminer",
   superpeer: "https://superpeer.com/eminer",
+  unsplash: "",
 };
