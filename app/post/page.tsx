@@ -5,6 +5,7 @@ import { allPosts, Post } from "contentlayer/generated";
 import Title from "@/components/title";
 import Container from "@/components/container";
 import { Metadata } from "next";
+import ThankYou from "@/components/thank-you";
 
 export const metadata: Metadata = {
   title: "Yazılar",
@@ -30,6 +31,10 @@ export default function PostsPage() {
       <Container>
         <Title>{metadata.description}</Title>
       </Container>
+
+      <div className="mt-10">
+        <ThankYou />
+      </div>
 
       <Container className="mt-20">
         <div className="space-y-8">
