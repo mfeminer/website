@@ -1,10 +1,8 @@
 class Unsplash {
-  private base_url: string = "https://api.unsplash.com/users/furkaneminer";
+  private base_url: string = "https://api.unsplash.com/users/username";
   private client_id: string = `client_id=${process.env.UNSPLASH_ACCESS_KEY}`;
 
   async getData(url) {
-    console.error(`${url} adresi kullanılamıyor. burayı düzenle`);
-    return [];
     const res = await fetch(url, {
       method: "GET",
     });

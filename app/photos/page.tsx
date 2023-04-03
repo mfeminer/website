@@ -23,18 +23,18 @@ export default async function PhotosPage() {
       <Container>
         <Title>{metadata.description}</Title>
 
-        <div className="mt-10 grid gap-6 sm:grid-cols-2 sm:gap-8">
+        {/* <div className="mt-10 grid gap-6 sm:grid-cols-2 sm:gap-8">
           <MetricCard href={SOCIAL.unsplash} data={stats.views?.total}>
             Unsplash Views
           </MetricCard>
           <MetricCard href={SOCIAL.unsplash} data={stats.downloads?.total}>
             Unsplash Downloads
           </MetricCard>
-        </div>
+        </div> */}
       </Container>
 
       <Container size="large" className="mt-20">
-        <Photos data={photos} />
+        {/* <Photos data={photos} /> */}
       </Container>
     </>
   );
