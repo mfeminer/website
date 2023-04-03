@@ -21,7 +21,7 @@ export default function Index() {
           </p>
 
           <p className="text-xl">
-            <StyleLink href="https://www.linkedin.com/in/furkaneminer">Şurada</StyleLink>{" "} kısa bir özgeçmişim, sayfanın en altında da iletişim bilgilerim var.
+            <StyleLink href="https://www.linkedin.com/in/furkaneminer">Şurada</StyleLink>{" "} kısa bir özgeçmişim, hemen aşağıda da iletişim bilgilerim var.
             Sosyal medya hesaplarımı aktif olarak kullanmıyorum. İletişim için lütfen e-posta adresimi kullanın.
           </p>
         </div>
