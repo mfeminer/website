@@ -31,9 +31,9 @@ export default function PostsPage() {
       <Container>
         <Title>{metadata.description}</Title>
 
-        <div className="mt-10">
+        {/* <div className="mt-10">
           <ThankYou />
-        </div>
+        </div> */}
       </Container>
 
       <Container className="mt-20">
