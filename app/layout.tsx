@@ -58,7 +58,7 @@ export default async function Layout({ children }) {
         <div className="flex min-h-screen flex-col pt-10 pb-14">
           <Header />
           <main className="mt-10 flex-grow sm:mt-20">{children}</main>
-          <Footer />
+          {/* <Footer /> */}
         </div>
 
         <AnalyticsWrapper />
