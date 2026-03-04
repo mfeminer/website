@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>M.Furkan Eminer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #000;
+      font-family: 'Share Tech Mono', monospace;
+      position: relative;
+      cursor: none;
+    }
+
+    /* CRT scanline overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 3px
+      );
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Subtle vignette */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(ellipse at center, transparent 50%, rgba(0, 0, 0, 0.7) 100%);
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    /* ===== Shared layer styling ===== */
+    .layer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .layer .content {
+      text-align: center;
+    }
+
+    .layer .name {
+      font-size: clamp(2rem, 6vw, 5rem);
+      color: #39ff14;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      cursor: none;
+      user-select: none;
+    }
+
+    .layer .socials {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.6rem;
+    }
+
+    .layer .socials a {
+      color: #39ff14;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: none;
+      position: relative;
+      width: 2.8em;
+      height: 2.8em;
+    }
+
+    /* Dashed green border on hover — handled by interaction layer */
+
+    .layer .socials .behance-icon {
+      font-family: 'Share Tech Mono', monospace;
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+      letter-spacing: -0.02em;
+    }
+
+    /* ===== Initial intro state: everything visible ===== */
+    body.intro .layer-blur .name,
+    body.intro .layer-blur .socials {
+      filter: blur(0px);
+      opacity: 1;
+      animation: none;
+    }
+
+    body.intro .layer-blur .name {
+      text-shadow:
+        0 0 7px #39ff14,
+        0 0 20px #39ff14,
+        0 0 42px #0d7a04,
+        0 0 82px #0d7a04;
+    }
+
+    body.intro .layer-blur .socials a {
+      text-shadow:
+        0 0 7px #39ff14,
+        0 0 20px #39ff14;
+    }
+
+    body.intro .layer-clear {
+      opacity: 0;
+    }
+
+    /* ===== Blurred background layer ===== */
+    .layer-blur {
+      z-index: 2;
+    }
+
+    .layer-blur .name {
+      filter: blur(16px);
+      opacity: 0.12;
+      text-shadow:
+        0 0 30px #39ff14,
+        0 0 60px #0d7a04;
+      transition: filter 3s ease, opacity 3s ease, text-shadow 3s ease;
+    }
+
+    .layer-blur .socials {
+      filter: blur(14px);
+      opacity: 0.1;
+      transition: filter 3s ease, opacity 3s ease;
+    }
+
+    .layer-blur .socials a {
+      text-shadow:
+        0 0 20px #39ff14;
+      transition: text-shadow 3s ease;
+    }
+
+    /* Flicker on blurred layer — only when fade-out is done */
+    @keyframes flicker {
+      0%, 100% { opacity: 0.12; }
+      3%  { opacity: 0.09; }
+      6%  { opacity: 0.13; }
+      50% { opacity: 0.11; }
+      53% { opacity: 0.08; }
+      56% { opacity: 0.13; }
+    }
+
+    body.flickering .layer-blur .name {
+      animation: flicker 4s infinite;
+    }
+
+    /* ===== Clear revealed layer (masked to mouse) ===== */
+    .layer-clear {
+      z-index: 3;
+      --mx: -300px;
+      --my: -300px;
+      -webkit-mask-image: radial-gradient(
+        circle 180px at var(--mx) var(--my),
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,0.6) 50%,
+        rgba(0,0,0,0) 100%
+      );
+      mask-image: radial-gradient(
+        circle 180px at var(--mx) var(--my),
+        rgba(0,0,0,1) 0%,
+        rgba(0,0,0,0.6) 50%,
+        rgba(0,0,0,0) 100%
+      );
+      pointer-events: none;
+      transition: opacity 3s ease;
+    }
+
+    .layer-clear .name {
+      text-shadow:
+        0 0 7px #39ff14,
+        0 0 20px #39ff14,
+        0 0 42px #0d7a04,
+        0 0 82px #0d7a04,
+        0 0 120px #0d7a04;
+      opacity: 1;
+    }
+
+    .layer-clear .socials a {
+      text-shadow:
+        0 0 7px #39ff14,
+        0 0 20px #39ff14,
+        0 0 42px #0d7a04;
+    }
+
+    /* ===== Custom cursor glow ===== */
+    .cursor-glow {
+      position: fixed;
+      width: 360px;
+      height: 360px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 4;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(
+        circle,
+        rgba(57, 255, 20, 0.06) 0%,
+        rgba(57, 255, 20, 0.02) 40%,
+        transparent 70%
+      );
+      left: var(--mx, -300px);
+      top: var(--my, -300px);
+      transition: opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    body.has-mouse .cursor-glow {
+      opacity: 1;
+    }
+
+    /* ===== Visible cursor dot ===== */
+    .cursor-dot {
+      position: fixed;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #39ff14;
+      box-shadow:
+        0 0 6px #39ff14,
+        0 0 15px #39ff14;
+      pointer-events: none;
+      z-index: 120;
+      transform: translate(-50%, -50%);
+      left: var(--mx, -300px);
+      top: var(--my, -300px);
+      transition: opacity 0.3s ease;
+      opacity: 0;
+    }
+
+    body.has-mouse .cursor-dot {
+      opacity: 1;
+    }
+
+    /* ===== Interaction layer for hover borders ===== */
+    .layer-interact {
+      z-index: 5;
+      pointer-events: none;
+    }
+
+    .layer-interact .content {
+      text-align: center;
+    }
+
+    .layer-interact .name {
+      font-size: clamp(2rem, 6vw, 5rem);
+      letter-spacing: 0.15em;
+      visibility: hidden;
+    }
+
+    .layer-interact .socials {
+      margin-top: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.6rem;
+    }
+
+    .layer-interact .socials a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.8em;
+      height: 2.8em;
+      font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+      color: transparent;
+      text-decoration: none;
+      pointer-events: auto;
+      cursor: none;
+      position: relative;
+    }
+
+    .layer-interact .socials a::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='none' stroke='%2339ff14'%3E%3Cg stroke-width='3.5'%3E%3Cpath d='M1.5 22 V1.5 H22'/%3E%3Cpath d='M78 1.5 H98.5 V22'/%3E%3Cpath d='M1.5 78 V98.5 H22'/%3E%3Cpath d='M78 98.5 H98.5 V78'/%3E%3C/g%3E%3Cg stroke-width='2'%3E%3Cline x1='30' y1='1.5' x2='40' y2='1.5'/%3E%3Cline x1='60' y1='1.5' x2='70' y2='1.5'/%3E%3Cline x1='30' y1='98.5' x2='40' y2='98.5'/%3E%3Cline x1='60' y1='98.5' x2='70' y2='98.5'/%3E%3Cline x1='1.5' y1='30' x2='1.5' y2='40'/%3E%3Cline x1='1.5' y1='60' x2='1.5' y2='70'/%3E%3Cline x1='98.5' y1='30' x2='98.5' y2='40'/%3E%3Cline x1='98.5' y1='60' x2='98.5' y2='70'/%3E%3C/g%3E%3Cg stroke-width='2.5'%3E%3Cline x1='50' y1='0' x2='50' y2='10'/%3E%3Cline x1='50' y1='100' x2='50' y2='90'/%3E%3Cline x1='0' y1='50' x2='10' y2='50'/%3E%3Cline x1='100' y1='50' x2='90' y2='50'/%3E%3C/g%3E%3C/svg%3E");
+      background-size: 100% 100%;
+      opacity: 0;
+      filter: drop-shadow(0 0 4px #39ff14);
+      transition: opacity 0.3s ease, filter 0.3s ease;
+    }
+
+    .layer-interact .socials a:hover::before {
+      opacity: 1;
+      filter: drop-shadow(0 0 6px #39ff14) drop-shadow(0 0 15px rgba(57, 255, 20, 0.4));
+    }
+
+    /* Ambient background glow */
+    .bg-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60vw;
+      height: 30vh;
+      background: radial-gradient(ellipse, rgba(57, 255, 20, 0.04) 0%, transparent 70%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* ===== Mobile: skip lens, show everything ===== */
+    @media (max-width: 768px) {
+      body { cursor: default; }
+
+      .layer-blur { display: none; }
+
+      .layer-clear {
+        -webkit-mask-image: none;
+        mask-image: none;
+        pointer-events: auto;
+      }
+
+      .layer-clear .name {
+        text-shadow:
+          0 0 7px #39ff14,
+          0 0 20px #39ff14,
+          0 0 42px #0d7a04,
+          0 0 82px #0d7a04;
+      }
+
+      .layer-clear .socials a {
+        cursor: pointer;
+        text-shadow:
+          0 0 7px #39ff14,
+          0 0 20px #39ff14;
+      }
+
+      .cursor-glow { display: none; }
+      .cursor-dot { display: none; }
+      .layer-interact { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-glow"></div>
+
+  <!-- Blurred background layer -->
+  <div class="layer layer-blur">
+    <div class="content">
+      <h1 class="name">m.Furkan EMİNER</h1>
+      <div class="socials">
+        <a href="https://github.com/mfeminer" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/furkaneminer" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:furkaneminer@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fab fa-at"></i></a>
+        <a href="https://x.com/mfeminer" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Clear layer revealed by mouse lens -->
+  <div class="layer layer-clear" id="layerClear">
+    <div class="content">
+      <h1 class="name">M.Furkan EMİNER</h1>
+      <div class="socials">
+        <a href="https://github.com/mfeminer" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/furkaneminer" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:furkaneminer@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fab fa-at"></i></a>
+        <a href="https://x.com/mfeminer" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Glow that follows the cursor -->
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <!-- Cursor dot -->
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Interaction layer for hover borders -->
+  <div class="layer layer-interact">
+    <div class="content">
+      <h1 class="name">M. Furkan Eminer</h1>
+      <div class="socials">
+        <a href="https://github.com/mfeminer" target="_blank" rel="noopener noreferrer" aria-label="GitHub"><i class="fab fa-github"></i></a>
+        <a href="https://linkedin.com/in/furkaneminer" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+        <a href="mailto:furkaneminer@gmail.com" target="_blank" rel="noopener noreferrer" aria-label="Email"><i class="fab fa-at"></i></a>
+        <a href="https://x.com/mfeminer" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const isMobile = window.matchMedia('(max-width: 768px)').matches ||
+                       'ontouchstart' in window;
+
+      // --- Intro: show everything, then fade to blurred ---
+      if (!isMobile) {
+        document.body.classList.add('intro');
+        setTimeout(() => {
+          document.body.classList.remove('intro');
+          // Start flicker only after the 3s fade-out transition ends
+          setTimeout(() => {
+            document.body.classList.add('flickering');
+          }, 3000);
+        }, 1500);
+      }
+
+      if (isMobile) return;
+
+      const layer = document.getElementById('layerClear');
+      const glow = document.getElementById('cursorGlow');
+      const dot = document.getElementById('cursorDot');
+      let mouseIn = false;
+
+      document.addEventListener('mouseenter', () => {
+        mouseIn = true;
+        document.body.classList.add('has-mouse');
+      });
+
+      document.addEventListener('mouseleave', () => {
+        mouseIn = false;
+        document.body.classList.remove('has-mouse');
+        layer.style.setProperty('--mx', '-300px');
+        layer.style.setProperty('--my', '-300px');
+        glow.style.left = '-300px';
+        glow.style.top = '-300px';
+        dot.style.left = '-300px';
+        dot.style.top = '-300px';
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (!mouseIn) return;
+        const x = e.clientX + 'px';
+        const y = e.clientY + 'px';
+        layer.style.setProperty('--mx', x);
+        layer.style.setProperty('--my', y);
+        glow.style.left = x;
+        glow.style.top = y;
+        dot.style.left = x;
+        dot.style.top = y;
+      });
+    })();
+  </script>
+</body>
+</html>
