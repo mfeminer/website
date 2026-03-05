@@ -2,16 +2,28 @@
   const isMobile = window.matchMedia('(max-width: 768px)').matches ||
                    'ontouchstart' in window;
 
+  // timing (ms) — tuned to ~1-2s as requested
+  const initialHoldMs = 2000; // how long to keep page fully visible on load
+  const revealOnClickMs = 2000;  // how long to keep page visible after click
+  const flickerDelayAfterBlur = 3000; // preserve existing flicker timing
+
+  let initialTimeout = null;
+  let flickerTimeout = null;
+  let reblurTimeout = null;
+
   // --- Intro: show everything, then fade to blurred ---
   if (!isMobile) {
     document.body.classList.add('intro');
-    setTimeout(() => {
-      document.body.classList.remove('intro');
-      // Start flicker only after the 3s fade-out transition ends
-      setTimeout(() => {
-        document.body.classList.add('flickering');
-      }, 3000);
-    }, 1500);
+    // ensure the `intro` class is rendered, then start the visible hold timer
+    requestAnimationFrame(() => {
+      initialTimeout = setTimeout(() => {
+        document.body.classList.remove('intro');
+        // Start flicker only after the fade-out transition ends
+        flickerTimeout = setTimeout(() => {
+          document.body.classList.add('flickering');
+        }, flickerDelayAfterBlur);
+      }, initialHoldMs);
+    });
   }
 
   if (isMobile) return;
@@ -20,6 +32,26 @@
   const glow = document.getElementById('cursorGlow');
   const dot = document.getElementById('cursorDot');
   let mouseIn = false;
+
+  // Clicking anywhere reveals the full page for `revealOnClickMs`, then re-blurs
+  document.addEventListener('click', () => {
+    // show fully
+    clearTimeout(initialTimeout);
+    clearTimeout(flickerTimeout);
+    clearTimeout(reblurTimeout);
+    document.body.classList.add('intro');
+    document.body.classList.remove('flickering');
+
+    // ensure `intro` is rendered, then start the reveal hold timer
+    requestAnimationFrame(() => {
+      reblurTimeout = setTimeout(() => {
+        document.body.classList.remove('intro');
+        flickerTimeout = setTimeout(() => {
+          document.body.classList.add('flickering');
+        }, flickerDelayAfterBlur);
+      }, revealOnClickMs);
+    });
+  });
 
   document.addEventListener('mouseenter', () => {
     mouseIn = true;

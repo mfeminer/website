@@ -141,6 +141,7 @@ body.intro .layer-blur .socials {
   filter: blur(0px);
   opacity: 1;
   animation: none;
+  transition: none; /* instant reveal — no slow fade-in */
 }
 
 body.intro .layer-blur .name {
@@ -159,6 +160,7 @@ body.intro .layer-blur .socials a {
 
 body.intro .layer-clear {
   opacity: 0;
+  transition: none;
 }
 
 /* ===== Blurred background layer ===== */
