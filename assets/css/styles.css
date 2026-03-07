@@ -356,8 +356,8 @@ body.has-mouse .cursor-dot {
   pointer-events: none;
 }
 
-/* ===== Mobile: skip lens, show everything ===== */
-@media (max-width: 768px) {
+/* ===== Mobile / Touch devices: skip lens, show everything ===== */
+@media (max-width: 768px), (pointer: coarse) {
   body { cursor: default; }
 
   .layer-blur { display: none; }
